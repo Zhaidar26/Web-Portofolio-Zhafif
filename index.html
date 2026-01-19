@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Profesional</title>
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --dark-color: #0f172a;
+            --light-color: #f8fafc;
+            --gray-color: #64748b;
+            --gradient-primary: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            --gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--light-color);
+            color: var(--dark-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-primary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #6d28d9 100%);
+        }
+
+        ::selection {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: var(--transition-smooth);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        nav.scrolled {
+            padding: 1rem 5rem;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--dark-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition-smooth);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5rem;
+            position: relative;
+            overflow: hidden;
+            background: var(--gradient-dark);
+            color: white;
+            margin-top: 0;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.15) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 1;
+            animation: slideUp 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 0.3s forwards;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #fff 30%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 0.5s forwards;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 0.7s forwards;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 0.9s forwards;
+        }
+
+        .cta-button {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-bounce);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button.primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+        }
+
+        .cta-button.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .cta-button.primary:hover {
+            box-shadow: 0 15px 40px rgba(37, 99, 235, 0.4);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.5s forwards;
+        }
+
+        .mouse {
+            width: 30px;
+            height: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            position: relative;
+            animation: bounce 2s infinite;
+        }
+
+        .wheel {
+            width: 4px;
+            height: 8px;
+            background: white;
+            border-radius: 2px;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scroll 1.5s infinite;
+        }
+
+        /* About Section */
+        .section {
+            padding: 8rem 5rem;
+            position: relative;
+            scroll-margin-top: 100px;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray-color);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .image-wrapper {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            transform: rotate(-2deg);
+            transition: var(--transition-bounce);
+        }
+
+        .image-wrapper:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .image-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-primary);
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #fdf4ff 100%);
+            object-fit: cover;
+            display: block;
+            align-items: center;
+            justify-content: center;
+            font-size: 120px;
+        }
+
+        .about-text {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
+        }
+
+        .about-text h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+        }
+
+        .about-text p {
+            color: var(--gray-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.125rem;
+        }
+
+        /* Skills Section */
+        .skills {
+            background: var(--light-color);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .skill-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition-bounce);
+            opacity: 0;
+            transform: translateY(50px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .skill-card:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .skill-card:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .skill-card:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .skill-card:nth-child(4) {
+            transition-delay: 0.4s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .skill-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            transition: var(--transition-smooth);
+        }
+
+        .skill-card:hover .skill-icon {
+            transform: rotateY(360deg);
+        }
+
+        .skill-icon svg {
+            width: 40px;
+            height: 40px;
+            stroke: white;
+        }
+
+        .skill-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .skill-card p {
+            color: var(--gray-color);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-bar {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            margin-top: 1.5rem;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+            width: 0;
+            transition: width 1.5s ease-out 0.3s;
+        }
+
+        /* Projects Section */
+        .projects {
+            background: #f8fafc;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition-smooth);
+            opacity: 0;
+            transform: translateY(50px);
+            cursor: pointer;
+        }
+
+        .project-card:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .project-card:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .project-card:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .view-project-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--gradient-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .view-project-btn {
+            transform: translateY(0);
+        }
+
+        .project-content {
+            padding: 2.5rem;
+        }
+
+        .project-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .project-content p {
+            color: var(--gray-color);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            padding: 0.25rem 0.75rem;
+            background: #f1f5f9;
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Project Modal */
+        .project-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            padding: 20px;
+        }
+
+        .project-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(50px);
+            transition: transform 0.4s ease;
+            position: relative;
+        }
+
+        .project-modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gradient-primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: var(--transition-smooth);
+            border: none;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .modal-image-container {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .modal-image:hover {
+            transform: scale(1.05);
+        }
+
+        .modal-body {
+            padding: 3rem;
+        }
+
+        .modal-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .modal-subtitle {
+            color: var(--gray-color);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .modal-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .modal-section h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-section h4 svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--primary-color);
+        }
+
+        .modal-section p {
+            color: var(--gray-color);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .modal-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+
+        .modal-tag {
+            padding: 0.5rem 1rem;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .modal-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .modal-link {
+            padding: 0.75rem 1.5rem;
+            background: var(--gradient-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .modal-link:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-link.secondary {
+            background: #f1f5f9;
+            color: var(--primary-color);
+        }
+
+        /* Contact Section */
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .contact-item {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition-bounce);
+            opacity: 0;
+            transform: translateY(50px);
+            text-align: center;
+        }
+
+        .contact-item:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .contact-item:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .contact-item:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+        }
+
+        .contact-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: white;
+        }
+
+        .contact-item a {
+            color: var(--dark-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.125rem;
+            transition: var(--transition-smooth);
+            display: block;
+        }
+
+        .contact-item a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 4rem 5rem 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-link {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .social-link:hover {
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .social-link svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+
+        /* Animations */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes scroll {
+            0% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 1 !important;
+            transform: translate(0, 0) !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            nav {
+                padding: 1.5rem 3rem;
+            }
+
+            .section {
+                padding: 6rem 3rem;
+                scroll-margin-top: 80px;
+            }
+
+            .hero {
+                padding: 0 3rem;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 2rem;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .hero {
+                padding: 0 2rem;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .section {
+                padding: 4rem 2rem;
+                scroll-margin-top: 60px;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+
+            .modal-body {
+                padding: 2rem;
+            }
+
+            .modal-title {
+                font-size: 2rem;
+            }
+
+            .modal-image-container {
+                height: 300px;
+            }
+
+            .modal-links {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .project-image {
+                height: 200px;
+            }
+
+            .modal-image-container {
+                height: 200px;
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Animation -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="#home" class="logo">Zhaidar</a>
+        <ul class="nav-links">
+            <li><a href="#home" class="active">Beranda</a></li>
+            <li><a href="#about">Tentang</a></li>
+            <li><a href="#skills">Keahlian</a></li>
+            <li><a href="#projects">Proyek</a></li>
+            <li><a href="#contact">Kontak</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-subtitle">Halo, nama saya</div>
+            <h1 class="hero-title">Zhafif Haidar</h1>
+            <div class="hero-description">
+                Saya seorang Siswa dari SMK Telkom Sidoarjo, yang memiliki minat di bidang IoT dan AI. Saat ini saya
+                aktif mengembangkan
+                keterampilan saya dalam bidang IoT melalui project sekolah, kelas dan lomba, dan pengalaman belajar
+                mandiri.
+            </div>
+            <div class="cta-buttons">
+                <a href="#contact" class="cta-button primary">
+                    <span>Hubungi Saya</span>
+                    <i data-feather="arrow-right"></i>
+                </a>
+                <a href="#projects" class="cta-button secondary">
+                    <span>Lihat Proyek</span>
+                    <i data-feather="download"></i>
+                </a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <h2 class="section-title">Tentang Saya</h2>
+            <p class="section-subtitle">"Hanya waktu yang dapat menghentikan imajinasi kita"</p>
+            <div class="about-content">
+                <div class="about-image">
+                    <div class="image-wrapper">
+                        <div class="avatar">
+                            <img src="IMG-20250915-WA0058 (1).jpg" class="avatar">
+                        </div>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <h3>Mengubah Ide Menjadi Realitas Digital</h3>
+                    <p>
+                        Saya adalah siswa SMK Telkom Sidoarjo jurusan Sistem Informasi Jaringan dan Aplikasi (SIJA) yang
+                        memiliki
+                        minat besar dalam bidang IoT, Desain grafis, Web Desain, dan Web developer. Saat ini saya aktif
+                        mengembangkan
+                        keterampilan saya dalam bidang IoT melalui project sekolah, kelas, dan lomba, dan pengalaman
+                        belajar mandiri.
+                    </p>
+                    <p>
+                        Keahlian Utama Saya adalah pemrograman menggunakan React, C#, dan Python, merakit alat IoT dan
+                        kelistrikan, dan mampu membuat machine learning.
+                    </p>
+                    <p>
+                        Saya ingin terus belajar dan berkembang di dunia IoT dan AI serta mencari peluang untuk magang
+                        ataupun berkontribusi dalam project yang dapat
+                        memberikan saya pengalaman untuk mengembangkan diri menjadi lebih baik
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section skills" id="skills">
+        <div class="container">
+            <h2 class="section-title">Keahlian Teknis</h2>
+            <p class="section-subtitle">Teknologi dan tools yang saya kuasai untuk membangun solusi terbaik</p>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i data-feather="code"></i>
+                    </div>
+                    <h3>Web & App Develop</h3>
+                    <p>React, Vue.js, TypeScript, Tailwind CSS, PHP.</p>
+
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i data-feather="cpu"></i>
+                    </div>
+                    <h3>IoT</h3>
+                    <p>Arduino IDE, KiCad, Wokwi, ESP32.</p>
+
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i data-feather="terminal"></i>
+                    </div>
+                    <h3>AI Engineer</h3>
+                    <p>Python, Seaborn, Pandas, Pyplot, Linear Regression, CNN.</p>
+
+                </div>
+                <!-- <div class="skill-card">
+                    <div class="skill-icon">
+                        <i data-feather="cloud"></i>
+                    </div>
+                    <h3>DevOps & Tools</h3>
+                    <p>Docker, AWS, CI/CD, Git, Webpack, Testing (Jest, Cypress)</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="80"></div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section projects" id="projects">
+        <div class="container">
+            <h2 class="section-title">Proyek Terbaru</h2>
+            <p class="section-subtitle">Solusi inovatif yang telah saya bangun untuk berbagai klien</p>
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card" data-project="1">
+                    <div class="project-image">
+                        <img src="lettura.jpeg" alt="Lettura">
+                        <div class="project-overlay">
+                            <span class="view-project-btn">
+                                <i data-feather="external-link"></i>
+                                Lihat Detail
+                            </span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Lettura</h3>
+                        <p>Aplikasi yang terintegrasi dengan AI untuk membantu para petani hidroponik
+                            dalam mengawasi dan merawat tanaman hidroponik
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">React Expo</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">MySQL</span>
+                            <span class="tag">Convolusional Neural Network (CNN)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card" data-project="2">
+                    <div class="project-image">
+                        <img src="watt.jpeg" alt="Watt-E">
+                        <div class="project-overlay">
+                            <span class="view-project-btn">
+                                <i data-feather="external-link"></i>
+                                Lihat Detail
+                            </span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Watt-E</h3>
+                        <p>Website yang dapat prediksi biaya penggunaan listrik dari bulan seblumnya, serta juga
+                            memberikan tips untuk berhemat menggunakan listrik.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">React Js</span>
+                            <span class="tag">MongoDB</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">Linear Regression</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card" data-project="3">
+                    <div class="project-image">
+                        <img src="curtain.jpeg" alt="Curtain Call">
+                        <div class="project-overlay">
+                            <span class="view-project-btn">
+                                <i data-feather="external-link"></i>
+                                Lihat Detail
+                            </span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Curtain Call</h3>
+                        <p>Aplikasi Smart Home yang terintegrasi dengan AI yang dapat mengontrol tirai secara otomatis
+                            maupun menggunakan suara.</p>
+                        <div class="project-tags">
+                            <span class="tag">React Expo</span>
+                            <span class="tag">TypeScript</span>
+                            <span class="tag">MongoDB</span>
+                            <span class="tag">Arduino IDE</span>
+                            <span class="tag">Python</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <h2 class="section-title">Mari Berkolaborasi</h2>
+                <p class="section-subtitle">Punya ide proyek yang menarik? Saya siap membantu mewujudkannya</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i data-feather="mail"></i>
+                        </div>
+                        <a href="mailto:suholee75@gmail.com">suholee75@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i data-feather="phone"></i>
+                        </div>
+                        <a href="tel:+6281331996233">+62 813 3199 6233</a>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i data-feather="linkedin"></i>
+                        </div>
+                        <a href="https://www.linkedin.com/in/zhafif-haidar-ilmi-596899351/" target="_blank">LinkedIn
+                            Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <a href="#home" class="logo">PORTFOLIO</a>
+            <div class="social-links">
+                <a href="https://github.com/Zhaidar26" class="social-link">
+                    <i data-feather="github"></i>
+                    GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/zhafif-haidar-ilmi-596899351/" class="social-link">
+                    <i data-feather="linkedin"></i>
+                    LinkedIn
+                </a>
+                <a href="#" class="social-link">
+                    <i data-feather="twitter"></i>
+                    Twitter
+                </a>
+                <a href="#" class="social-link">
+                    <i data-feather="instagram"></i>
+                    Instagram
+                </a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Zhafif Haidar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Project Modal Templates -->
+    <div class="project-modal" id="project-modal-1">
+        <div class="modal-content">
+            <button class="modal-close">
+                <i data-feather="x"></i>
+            </button>
+            <div class="modal-image-container">
+                <img src="lettura.jpeg" alt="Lettura" class="modal-image">
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title">Lettura</h2>
+                <p class="modal-subtitle">Aplikasi yang terintegrasi dengan AI untuk membantu para petani hidroponik
+                    dalam mengawasi dan merawat tanaman hidroponik</p>
+
+                <div class="modal-section">
+                    <h4>
+                        <i data-feather="info"></i>
+                        Tentang Proyek
+                    </h4>
+                    <p>Aplikasi yang saya dan teman-teman saya kembangkan ini memberikan sebuah solusi yang praktis
+                        untuk para petani hidroponik yang ada di Indonesia.</p>
+                    <p>Aplikasi dan produk ini sudah di perlombakan dan mendapat juara 3 pada lomba FITCOM 3.0 yang
+                        diadakan oleh Universitas Dinamika</p>
+                </div>
+
+                <div class="modal-section">
+                    <h4>
+                        <i data-feather="code"></i>
+                        Teknologi yang Digunakan
+                    </h4>
+                    <div class="modal-tags">
+                        <span class="modal-tag">React</span>
+                        <span class="modal-tag">Node.js</span>
+                        <span class="modal-tag">MySQL</span>
+                        <span class="modal-tag">Arduino IDE</span>
+                        <span class="modal-tag">Convolusional Neural Network (CNN)</span>
+                        <span class="modal-tag">Python</span>
+                        <span class="modal-tag">Jupyter</span>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h4>
+                        <i data-feather="check-circle"></i>
+                        Fitur Utama
+                    </h4>
+                    <p>• Menampilkan data pH dan nutrisi secara real time</p>
+                    <p>• Kamera untuk mendeteksi penyakit pada tanaman</p>
+                    <p>• Berita-berita yang dapat memberikan sebuah informasi kepada para petani</p>
+                    <p>• Leaderboard untuk data penjualan sayur pada tahun ini.</p>
+                    <p>• Panduan untuk memberikan sebuah solusi apabila tanaman terkena penyakit</p>
+                </div>
+
+                <div class="modal-section">
+                    <h4>
+                        <i data-feather="target"></i>
+                        Hasil yang Dicapai
+                    </h4>
+                    <p>• AI sudah dapat mendeteksi berbagai jenis penyakit</p>
+                    <p>• Sudah dilakukan test menggunakan selada dan hasilnya baik</p>
+                    <p>• Data pH dan nutrisi terkirim dengan benar dan secara real time</p>
+                </div>
+
+                <div class="modal-links">
+                    <!-- <a href="#" class="modal-link">
+                        <i data-feather="external-link"></i>
+                        Lihat Demo Live
+                    </a> -->
+                    <a href="https://github.com/Diocta/SmartFarm" class="modal-link secondary">
+                        <i data-feather="github"></i>
+                        Kode Sumber
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="project-modal" id="project-modal-2">
+        <div class="modal-content">
+            <button class="modal-close">
+                <i data-feather="x"></i>
+            </button>
+            <div class="modal-image-container">
+                <img src="watt.jpeg" alt="Watt-E" class="modal-image">
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title">Watt-E</h2>
+                <p class="modal-subtitle">Website untuk prediksi biaya penggunaan listrik</p>
+
+                <div class="modal-section">
+                    <h4>
+                        <i data-feather="info"></i>
+                        Tentang Proyek
+                    </h4>
+                    <p>Website yang dapat prediksi biaya penggunaan listrik dari bulan seblumnya, serta juga
+                        memberikan tips untuk berhemat menggunakan listrik.</p>
+                </div>
+
+                <div class="modal-section">
+                    <h4>
+                        <i data-feather="code"></i>
+                        Teknologi yang Digunakan
+                    </h4>
+                    <div class="modal-tags">
+                        <span class="modal-tag">React Js</span>
+                        <span class="modal-tag">MongoDB</span>
+                        <span class="modal-tag">Python</span>
+                        <span class="modal-tag">Linear Regression</span>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h4>
+                        <i data-feather="check-circle"></i>
+                        Fitur Utama
+                    </h4>
+                    <p>• Prediksi biaya penggunaan listrik</p>
+                    <p>• Kalkulator untuk penggunaan listrik di masa depan</p>
+                    <p>• Tips hemat dalam penggunaan listrik</p>
+                    <p>• Dashboard yang mudah dipahami</p>
+                </div>
+
+                <div class="modal-section">
+                    <h4>
+                        <i data-feather="target"></i>
+                        Hasil yang Dicapai
+                    </h4>
+                    <p>• AI dapat memprediksi penggunaan listrik di masa depan</p>
+                    <p>• Kalkulator untuk hitung manual penggunaan listrik dan biayanya</p>
+                    <p>• Tampilan data grafis penggunaan listrik yang mudah dipahami</p>
+                </div>
+
+                <div class="modal-links">
+                    <!-- <a href="#" class="modal-link">
+                        <i data-feather="external-link"></i>
+                        Lihat Demo Live
+                    </a> -->
+                    <a href="#" class="modal-link secondary">
+                        <i data-feather="github"></i>
+                        Kode Sumber
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="project-modal" id="project-modal-3">
+        <div class="modal-content">
+            <button class="modal-close">
+                <i data-feather="x"></i>
+            </button>
+            <div class="modal-image-container">
+                <img src="curtain.jpeg"
+                    alt="Curtain Call" class="modal-image">
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title">Curtain Call</h2>
+                <p class="modal-subtitle">Aplikasi Smart Home yang terintegrasi dengan AI yang dapat mengontrol tirai secara otomatis
+                    maupun menggunakan suara.</p>
+                <div class="modal-section">
+                    <h4>
+                        <i data-feather="info"></i>
+                        Tentang Proyek
+                    </h4>
+                    <p>Curtain Call adalah aplikasi Smart Home berbasis AI yang dapat mengontrol tirai secara manual maupun otomatis
+                        melalui handphone, AI digunakan untuk melakukan perintah suara menutup dan membuka tirai.</p>
+                    <p>Tirai bisa dikontrol secara otomatis agar sesuai dengan kondisi rumah, apabila rumah terlalu gelap rumah dapat membuka tirai
+                        untuk mendapatkan cahaya matahari, atau bisa masuk ke dalam mode sleep yang dimana tirai akan selalu tertutup dan tidak akan terbuka 
+                        sebelum sleep mode dimatikan.</p>
+                </div>
+
+                <div class="modal-section">
+                    <h4>
+                        <i data-feather="code"></i>
+                        Teknologi yang Digunakan
+                    </h4>
+                    <div class="modal-tags">
+                        <span class="tag">React Expo</span>
+                            <span class="modal-tag">TypeScript</span>
+                            <span class="modal-tag">MongoDB</span>
+                            <span class="modal-tag">Arduino IDE</span>
+                            <span class="modal-tag">Python</span>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h4>
+                        <i data-feather="check-circle"></i>
+                        Fitur Utama
+                    </h4>
+                    <p>• Mode otomatis, mode sleep, dan mode kontrol manual</p>
+                    <p>• Mode omotatis dapat membuka tirai sendiri sesuai dengan kondisi rumah</p>
+                    <p>• ada perintah suara untuk menutup dan membuka tirai</p>
+                    <p>• Tampilan yang ramah pengguna</p>
+                </div>
+
+                <div class="modal-section">
+                    <h4>
+                        <i data-feather="target"></i>
+                        Hasil yang Dicapai
+                    </h4>
+                    <p>• Pengguna dapat membuka dan menutup tirai melalui perintah suara</p>
+                    <p>• Mode Sleep yang berfungsi dengan baik</p>
+                    <p>• Dalam mode omotatis tirai dapat terbuka dan tertutup sesuai denga kondisi rumah</p>
+                </div>
+
+                <div class="modal-links">
+                    <!-- <a href="#" class="modal-link">
+                        <i data-feather="external-link"></i>
+                        Lihat Demo Live
+                    </a> -->
+                    <a href="#" class="modal-link secondary">
+                        <i data-feather="github"></i>
+                        Kode Sumber
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+
+        // Loading Animation
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.classList.add('hidden');
+            }, 1000);
+        });
+
+        // Project Modal Functionality
+        const projectCards = document.querySelectorAll('.project-card');
+        const modals = document.querySelectorAll('.project-modal');
+        const body = document.body;
+
+        // Open modal when project card is clicked
+        projectCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                const projectId = card.getAttribute('data-project');
+                const modal = document.getElementById(`project-modal-${projectId}`);
+
+                if (modal) {
+                    modal.classList.add('active');
+                    body.classList.add('modal-open');
+                    body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // Close modal functionality
+        modals.forEach(modal => {
+            const closeBtn = modal.querySelector('.modal-close');
+
+            // Close when X button is clicked
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
+                body.classList.remove('modal-open');
+                body.style.overflow = '';
+            });
+
+            // Close when clicking outside modal content
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    body.classList.remove('modal-open');
+                    body.style.overflow = '';
+                }
+            });
+
+            // Close with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    modal.classList.remove('active');
+                    body.classList.remove('modal-open');
+                    body.style.overflow = '';
+                }
+            });
+        });
+
+        // Smooth scroll dengan offset untuk navbar fixed
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+
+                e.preventDefault();
+
+                // Update active nav link
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                this.classList.add('active');
+
+                // Scroll ke target
+                const target = document.querySelector(href);
+                if (target) {
+                    const navbarHeight = document.getElementById('navbar').offsetHeight;
+                    const targetPosition = target.offsetTop - navbarHeight;
+
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Navbar scroll effect dan active link update
+        let ticking = false;
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const navbar = document.getElementById('navbar');
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                    // Add/remove scrolled class
+                    if (scrollTop > 50) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
+
+                    // Update active nav link berdasarkan posisi scroll
+                    const sections = document.querySelectorAll('section[id]');
+                    const scrollPosition = scrollTop + 100;
+
+                    let currentSection = '';
+                    sections.forEach(section => {
+                        const sectionTop = section.offsetTop - 100;
+                        const sectionBottom = sectionTop + section.offsetHeight;
+                        const id = section.getAttribute('id');
+
+                        if (scrollPosition >= sectionTop && scrollPosition <= sectionBottom) {
+                            currentSection = id;
+                        }
+                    });
+
+                    if (currentSection) {
+                        document.querySelectorAll('.nav-links a').forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${currentSection}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // Intersection Observer untuk animasi reveal
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add reveal class ke elemen utama
+                    entry.target.classList.add('reveal');
+
+                    // Animate child elements dengan delay
+                    const children = entry.target.querySelectorAll('.skill-card, .project-card, .contact-item, .about-image, .about-text');
+                    children.forEach((child, index) => {
+                        setTimeout(() => {
+                            child.classList.add('reveal');
+                        }, index * 100);
+                    });
+
+                    // Animate skill bars
+                    if (entry.target.id === 'skills') {
+                        const progressBars = entry.target.querySelectorAll('.skill-progress');
+                        progressBars.forEach((bar, index) => {
+                            setTimeout(() => {
+                                const width = bar.dataset.width;
+                                bar.style.width = `${width}%`;
+                            }, 300 + (index * 200));
+                        });
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe sections
+        document.querySelectorAll('section[id]').forEach(section => {
+            observer.observe(section);
+
+            // Observe section titles dan subtitles
+            const title = section.querySelector('.section-title');
+            const subtitle = section.querySelector('.section-subtitle');
+
+            if (title) observer.observe(title);
+            if (subtitle) observer.observe(subtitle);
+        });
+
+        // Hover effect untuk skill cards
+        document.querySelectorAll('.skill-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const icon = card.querySelector('.skill-icon');
+                if (icon) {
+                    icon.style.transform = 'rotateY(360deg)';
+                }
+            });
+
+            card.addEventListener('mouseleave', () => {
+                const icon = card.querySelector('.skill-icon');
+                if (icon) {
+                    icon.style.transform = 'rotateY(0deg)';
+                }
+            });
+        });
+
+        // Image hover effect in modal
+        document.querySelectorAll('.modal-image').forEach(img => {
+            img.addEventListener('mouseenter', () => {
+                img.style.transform = 'scale(1.05)';
+            });
+
+            img.addEventListener('mouseleave', () => {
+                img.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+
+</html>
